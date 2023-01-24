@@ -7,7 +7,7 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private float dumping = 1.5f;
     [SerializeField] private Vector2 offset = new Vector2(2f, 1f);
 
-    [SerializeField] private bool hasLimit = true;
+    [SerializeField] private bool hasLimit = false;
     [SerializeField] private float leftLimit, rightLimit, bottomLimit, upperLimit;
 
     private Vector3 _target;
