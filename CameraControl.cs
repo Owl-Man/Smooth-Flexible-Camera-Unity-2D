@@ -6,6 +6,8 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private Vector2 offset = new Vector2(2f, 1f);
     private bool isLeft;
 
+    [SerializeField] private bool hasLimit = true;
+
     [SerializeField] private float leftLimit, rightLimit, bottomLimit, upperLimit;
 
     [SerializeField] private Transform _player;
@@ -16,8 +18,6 @@ public class CameraControl : MonoBehaviour
 
     private void Start()
     {
-        leftLimit *= -1;
-        bottomLimit *= -1;
         offset = new Vector2(Mathf.Abs(offset.x), offset.y);
         FocusOnPlayer(isLeft);
     }
@@ -39,12 +39,15 @@ public class CameraControl : MonoBehaviour
 
         transform.position = currentPosition;
 
-        transform.position = new Vector3
-        (
-            Mathf.Clamp(transform.position.x, leftLimit, rightLimit),
-            Mathf.Clamp(transform.position.y, bottomLimit, upperLimit),
-            transform.position.z
-        );
+        if (hasLimit) 
+        {
+            transform.position = new Vector3
+            (
+                Mathf.Clamp(transform.position.x, leftLimit * -1, rightLimit),
+                Mathf.Clamp(transform.position.y, bottomLimit * -1, upperLimit),
+                transform.position.z
+            );
+        }
     }
 
     public void FocusOnPlayer(bool playerIsLeft)
