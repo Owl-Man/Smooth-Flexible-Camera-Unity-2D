@@ -2,36 +2,34 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
-    [SerializeField] private float dumping = 1.5f;
-    [SerializeField] private Vector2 offset = new Vector2(2f, 1f);
-    private bool isLeft;
-
-    [SerializeField] private bool hasLimit = true;
-
-    [SerializeField] private float leftLimit, rightLimit, bottomLimit, upperLimit;
-
     [SerializeField] private Transform _player;
 
-    private Vector3 _target;
+    [SerializeField] private float dumping = 1.5f;
+    [SerializeField] private Vector2 offset = new Vector2(2f, 1f);
 
+    [SerializeField] private bool hasLimit = true;
+    [SerializeField] private float leftLimit, rightLimit, bottomLimit, upperLimit;
+
+    private Vector3 _target;
     private int _lastX, _currentX;
+    private bool _isLeft;
 
     private void Start()
     {
         offset = new Vector2(Mathf.Abs(offset.x), offset.y);
-        FocusOnPlayer(isLeft);
+        FocusOnPlayer(_isLeft);
     }
 
     private void Update()
     {
         _currentX = Mathf.RoundToInt(_player.position.x);
 
-        if (_currentX > _lastX) isLeft = false;
-        else if (_currentX < _lastX) isLeft = true;
+        if (_currentX > _lastX) _isLeft = false;
+        else if (_currentX < _lastX) _isLeft = true;
 
         _lastX = Mathf.RoundToInt(_player.position.x);
 
-        _target = isLeft
+        _target = _isLeft
             ? new Vector3(_player.position.x - offset.x, _player.position.y + offset.y, transform.position.z)
             : new Vector3(_player.position.x + offset.x, _player.position.y + offset.y, transform.position.z);
 
